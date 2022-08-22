@@ -70,7 +70,9 @@ To remap toggling to something else like `<leader>cl`, simply do
 
 ```lua
 -- init.lua
-vim.keymap.set({ 'n', 'v' }, '<leader>cl', require('nvim-toggler').toggle)
+require('nvim-toggler').setup({
+  toggle_mapping = '<leader>cl'
+})
 ```
 
 [source]: https://github.com/nguyenvukhang/nvim-toggler/blob/main/lua/nvim-toggler.lua

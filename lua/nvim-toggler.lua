@@ -6,6 +6,8 @@ local global_inversions = vim.tbl_add_reverse_lookup({
   ['up'] = 'down',
 })
 
+local toggle_mapping = '<leader>i'
+
 local filetype_inversions = {}
 
 local setup = function(u_tbl)
@@ -22,6 +24,10 @@ local setup = function(u_tbl)
       vim.tbl_add_reverse_lookup(inversions)
     )
   end
+
+  toggle_mapping = u_tbl.toggle_mapping or toggle_mapping
+  local opts = { noremap = true, silent = true }
+  vim.keymap.set({ 'n', 'v' }, toggle_mapping, toggle, opts)
 end
 
 local c = {
@@ -29,7 +35,7 @@ local c = {
   ['v'] = 'norm! c',
 }
 
-local toggle = function()
+function toggle()
   local i = vim.tbl_get(global_inversions, vim.fn.expand('<cword>'))
   if filetype_inversions[vim.bo.filetype] then
     fi = vim.tbl_get(
@@ -45,7 +51,4 @@ local toggle = function()
   end)
 end
 
-local opts = { noremap = true, silent = true }
-vim.keymap.set({ 'n', 'v' }, '<leader>i', toggle, opts)
-
-return { setup = setup, toggle = toggle }
+return { setup = setup }
